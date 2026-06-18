@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  nginx-gateway:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx.config
+    depends_on:
+      - svc-catalogo
+      - svc-miembros
+      - svc-prestamos
+    networks:
+      - microservices-net
+
+  #Contenedor del microservicio de catalogo
+  svc-catalogo:
+    build: ./svc-catalogo
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIST_HOST=redis-cache
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    depends_on:
+      - redis-cache
+      - postgres
+    networks:
+      - microservices-net
+
+
+  #Contenedor del microservicio de miembros
+  svc-miembros:
+    build: ./svc-miembros
+    ports:
+      - "8082:8082"
+    environment:
+      - REDIST_HOST=redis-cache
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    depends_on:
+      - redis-cache
+      - postgres
+    networks:
+      - microservices-net
+
+  #Contenedor del microservicio de prestamos
+  svc-prestamos:
+    build: ./svc-prestamos
+    ports:
+      - "8083:8083"
+    environment:
+      - REDIST_HOST=redis-cache
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    depends_on:
+      - redis-cache
+      - postgres
+    networks:
+      - microservices-net
+
+  #Contenedor de postgres
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  #Contenedor de redis
+  redis-cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  postgres_data:

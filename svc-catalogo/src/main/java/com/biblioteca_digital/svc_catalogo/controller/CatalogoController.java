@@ -14,12 +14,12 @@ public class CatalogoController {
     @Autowired
     private CatalogoService catalogoService;
 
-    @PostMapping("/save")
+    @PostMapping("/libros")
     public Map<String, Object> createCatalogo(@Valid @RequestBody CatalogoRequest catalogoRequest){
         return catalogoService.crearCatalogo(catalogoRequest);
     }
 
-    @GetMapping("/{isbn}")
+    @GetMapping("/libros/{isbn}")
     public Map<String, Object> getCatalogoPorIsbn(@PathVariable String isbn){
         return catalogoService.obtenerLibroPorIsbn(isbn);
     }

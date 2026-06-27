@@ -42,7 +42,7 @@ public class CatalogoService {
         catalogo.setCopiasDisponibles(catalogoRequest.getCopiasDisponibles());
         catalogoRepository.save(catalogo);
         stringRedisTemplate.delete("catalogo:all");
-        return Map.of("mensaje", "Catalogo creado correctamente", "identifciador", catalogo.getId());
+        return Map.of("mensaje", "Catalogo creado correctamente", "identificador", catalogo.getId());
     }
 
     public Map<String, Object> obtenerLibroPorIsbn(String isbn){

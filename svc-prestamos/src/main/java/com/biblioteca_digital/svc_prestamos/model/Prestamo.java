@@ -22,6 +22,7 @@ public class Prestamo {
     @Column(nullable = false)
     private String fechaPrestamo;
 
+    @Column(nullable = false)
     private String fechaDevolucionEstimada;
 
     private String fechaDevolucionReal;

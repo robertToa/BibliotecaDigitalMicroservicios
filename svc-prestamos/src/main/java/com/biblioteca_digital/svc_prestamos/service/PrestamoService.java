@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -38,11 +39,10 @@ public class PrestamoService {
         prestamo.setMiembroId(prestamoRequest.getMiembroId());
         prestamo.setFechaPrestamo(new Date().toString());
         prestamo.setFechaDevolucionEstimada(prestamoRequest.getFechaDevolucionEstimada());
-        prestamo.setFechaDevolucionReal(prestamoRequest.getFechaDevolucionReal());
         prestamo.setEstado(defaultEstado);
         prestamoRepository.save(prestamo);
         stringRedisTemplate.delete("prestamo:all");
-        return Map.of("mensaje", "Prestamo creado correctamente", "identifciador", prestamo.getId());
+        return Map.of("mensaje", "Prestamo creado correctamente", "identificador", prestamo.getId());
     }
 
     public Map<String, Object> obtenerPrestamo(String id){
@@ -81,5 +81,26 @@ public class PrestamoService {
         }
         tiempoTranscurrido = finTiempo - inicioTiempo;
         return Map.of("Fuente", "base de datos", "tiempo en milisegundos", tiempoTranscurrido,"datos", prestamoGet);
+    }
+
+    public Map<String, Object> updatePrestamoDevuelto(String id){
+        Optional<Prestamo> prestamoDB = prestamoRepository.findById(id);
+        if(prestamoDB.isEmpty()){
+            return Map.of("error", "Prestamo no encontrado con el identificador: "+ id);
+        }
+        Prestamo prestamo = prestamoDB.get();
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaEstimada = LocalDate.parse(prestamo.getFechaDevolucionEstimada());
+        if (fechaActual.isAfter(fechaEstimada)) {
+            prestamo.setEstado("ATRASADO");
+        } else {
+            prestamo.setEstado("DEVUELTO");
+        }
+        prestamo.setFechaDevolucionReal(fechaActual.toString());
+        prestamo.setEstado("DEVUELTO");
+        prestamoRepository.save(prestamo);
+        stringRedisTemplate.delete("prestamo:all");
+        stringRedisTemplate.delete("prestamo:" + id);
+        return Map.of("mensaje", "Prestamo devuelto correctamente", "identificador", prestamo.getId());
     }
 }

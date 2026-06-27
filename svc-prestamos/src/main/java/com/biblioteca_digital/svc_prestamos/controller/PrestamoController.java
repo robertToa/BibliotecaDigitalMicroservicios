@@ -13,7 +13,7 @@ public class PrestamoController {
     @Autowired
     private PrestamoService prestamoService;
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public Map<String, Object> createPrestamo(@Valid @RequestBody PrestamoRequest prestamoRequest){
         return prestamoService.crearPrestamo(prestamoRequest);
     }
@@ -23,10 +23,14 @@ public class PrestamoController {
         return prestamoService.obtenerPrestamo(id);
     }
 
+    @PutMapping("/{id}/devolver")
+    public Map<String, Object> updatePrestamo(@PathVariable String id){
+        return prestamoService.updatePrestamoDevuelto(id);
+    }
+
     @GetMapping("/health")
     public Map<String, String> health(){
         return Map.of("servicio", "svc-prestamo", "estado", "OK");
     }
-
 
 }

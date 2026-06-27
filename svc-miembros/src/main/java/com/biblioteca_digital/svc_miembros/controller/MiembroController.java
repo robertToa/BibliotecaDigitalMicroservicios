@@ -13,7 +13,7 @@ public class MiembroController {
     @Autowired
     private MiembroService miembroService;
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public Map<String, Object> createMiembro(@Valid @RequestBody MiembroRequest miembroRequest){
         return miembroService.crearMiembro(miembroRequest);
     }

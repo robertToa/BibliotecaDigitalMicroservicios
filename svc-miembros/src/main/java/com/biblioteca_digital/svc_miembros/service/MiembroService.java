@@ -27,6 +27,8 @@ public class MiembroService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final int defaultPrestamosActivos = 0;
+
     public Map<String, Object> crearMiembro(MiembroRequest miembroRequest){
         Miembro miembro = new Miembro();
         String id = "M-" + UUID.randomUUID().toString();
@@ -35,10 +37,10 @@ public class MiembroService {
         miembro.setEmail(miembroRequest.getEmail());
         miembro.setTipoMiembro(miembroRequest.getTipoMiembro());
         miembro.setFechaRegistro(new Date().toString());
-        miembro.setPrestamosActivos(miembroRequest.getPrestamosActivos());
+        miembro.setPrestamosActivos(defaultPrestamosActivos);
         miembroRepository.save(miembro);
         stringRedisTemplate.delete("miembro:all");
-        return Map.of("mensaje", "Miembro creado correctamente", "identifciador", miembro.getId());
+        return Map.of("mensaje", "Miembro creado correctamente", "identificador", miembro.getId());
     }
 
     public Map<String, Object> obtenerMiembro(String id){

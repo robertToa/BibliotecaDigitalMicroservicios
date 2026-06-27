@@ -20,13 +20,18 @@ public class Catalogo {
     @Column(nullable = false)
     private String autor;
 
+    @Column(nullable = false)
     private String genero;
 
+    @Column(nullable = false)
     private Integer anioPublicacion;
 
+    @Column(nullable = false)
     private boolean disponible;
 
+    @Column(nullable = false)
     private Integer copiasTotales;
 
+    @Column(nullable = false)
     private Integer copiasDisponibles;
 }

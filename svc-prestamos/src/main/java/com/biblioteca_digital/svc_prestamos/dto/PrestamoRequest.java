@@ -12,7 +12,6 @@ public class PrestamoRequest {
     @NotBlank(message = "El miembro es obligatorio")
     private String miembroId;
 
+    @NotBlank(message = "La fecha de devolución estimada es obligatorio")
     private String fechaDevolucionEstimada;
-
-    private String fechaDevolucionReal;
 }

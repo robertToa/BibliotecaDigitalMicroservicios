@@ -15,12 +15,15 @@ public class CatalogoRequest {
     @NotBlank(message = "El autor es obligatorio")
     private String autor;
 
+    @NotBlank(message = "El género es obligatorio")
     private String genero;
 
     @NotNull(message = "El año de publicación es obligatorio")
     private Integer anioPublicacion;
 
+    @NotNull(message = "El número de copias totales es obligatorio")
     private Integer copiasTotales;
 
+    @NotNull(message = "El nímero de copias disponibles es obligatorio")
     private Integer copiasDisponibles;
 }

@@ -19,7 +19,9 @@ public class Miembro {
     @Column(nullable = false)
     private String tipoMiembro;
 
+    @Column(nullable = false)
     private String fechaRegistro;
 
+    @Column(nullable = false)
     private Integer prestamosActivos;
 }

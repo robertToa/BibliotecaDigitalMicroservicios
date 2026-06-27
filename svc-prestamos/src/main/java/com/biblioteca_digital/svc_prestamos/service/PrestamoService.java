@@ -2,6 +2,7 @@ package com.biblioteca_digital.svc_prestamos.service;
 
 import com.biblioteca_digital.svc_prestamos.dto.PrestamoRequest;
 import com.biblioteca_digital.svc_prestamos.model.Prestamo;
+import com.biblioteca_digital.svc_prestamos.model.TipoEstado;
 import com.biblioteca_digital.svc_prestamos.repository.PrestamoRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ public class PrestamoService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final String defaultEstado = "ACTIVO";
+    private final TipoEstado defaultEstado = TipoEstado.ACTIVO;
 
     public Map<String, Object> crearPrestamo(PrestamoRequest prestamoRequest){
         Prestamo prestamo = new Prestamo();
@@ -92,12 +93,11 @@ public class PrestamoService {
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaEstimada = LocalDate.parse(prestamo.getFechaDevolucionEstimada());
         if (fechaActual.isAfter(fechaEstimada)) {
-            prestamo.setEstado("ATRASADO");
+            prestamo.setEstado(TipoEstado.ATRASADO);
         } else {
-            prestamo.setEstado("DEVUELTO");
+            prestamo.setEstado(TipoEstado.DEVUELTO);
         }
         prestamo.setFechaDevolucionReal(fechaActual.toString());
-        prestamo.setEstado("DEVUELTO");
         prestamoRepository.save(prestamo);
         stringRedisTemplate.delete("prestamo:all");
         stringRedisTemplate.delete("prestamo:" + id);

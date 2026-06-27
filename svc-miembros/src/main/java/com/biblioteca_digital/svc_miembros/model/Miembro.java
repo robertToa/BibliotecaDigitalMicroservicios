@@ -16,12 +16,12 @@ public class Miembro {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String tipoMiembro;
+    @Column(nullable = false, name = "tipo_miembro")
+    private TipoMiembro tipoMiembro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fecha_registro")
     private String fechaRegistro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "prestamos_activos")
     private Integer prestamosActivos;
 }

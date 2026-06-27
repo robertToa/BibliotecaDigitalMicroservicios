@@ -19,15 +19,16 @@ public class Prestamo {
     @Column(nullable = false)
     private String miembroId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fecha_prestamo")
     private String fechaPrestamo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "fecha_devolucion_estimada")
     private String fechaDevolucionEstimada;
 
+    @Column(name = "fecha_devolucion_real")
     private String fechaDevolucionReal;
 
     @Column(nullable = false)
-    private String estado;
+    private TipoEstado estado;
 
 }

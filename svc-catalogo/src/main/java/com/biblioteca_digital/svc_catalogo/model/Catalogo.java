@@ -23,15 +23,15 @@ public class Catalogo {
     @Column(nullable = false)
     private String genero;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "anio_publicacion")
     private Integer anioPublicacion;
 
     @Column(nullable = false)
     private boolean disponible;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "copias_totales")
     private Integer copiasTotales;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "copias_disponibles")
     private Integer copiasDisponibles;
 }

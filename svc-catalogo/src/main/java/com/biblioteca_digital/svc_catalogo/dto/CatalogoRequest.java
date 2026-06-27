@@ -1,5 +1,6 @@
 package com.biblioteca_digital.svc_catalogo.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class CatalogoRequest {
     private String genero;
 
     @NotNull(message = "El año de publicación es obligatorio")
+    @Min(value = 1500, message = "El año de publicación debe ser válido")
     private Integer anioPublicacion;
 
     @NotNull(message = "El número de copias totales es obligatorio")

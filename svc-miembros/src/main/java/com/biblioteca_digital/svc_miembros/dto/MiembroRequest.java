@@ -17,9 +17,5 @@ public class MiembroRequest {
     private String email;
 
     @NotNull(message = "El tipo de miembro es obligatorio")
-    @Pattern(
-            regexp = "ACTIVO|DEVUELTO|ATRASADO",
-            message = "El tipo de miembro es inválido"
-    )
     private TipoMiembro tipoMiembro;
 }
